@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "35758728467",
+    "project_id": "elabad-bikeparking",
+    "storage_bucket": "elabad-bikeparking.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35758728467:android:cdb8b2f081a5920854e6e6",
+        "android_client_info": {
+          "package_name": "com.parking.elbad"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmh9H2rvwZ0wpm0Zjbjbmguw0TjnbHrbE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

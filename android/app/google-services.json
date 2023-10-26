@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "711000360478",
+    "project_id": "elbad-parking",
+    "storage_bucket": "elbad-parking.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:711000360478:android:382d29fd28095bd15b100f",
+        "android_client_info": {
+          "package_name": "com.parking.elbad"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKVo0XUnv2iXkQ2cCbzbKhGzlZRNmsC2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
