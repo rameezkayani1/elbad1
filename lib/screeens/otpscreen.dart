@@ -1,16 +1,18 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 
-import '../widgets/menupage.dart';
-
 class OtpScreen extends StatefulWidget {
   final String verificationId;
 
+  var documentData;
+  
   OtpScreen(
     this.verificationId,
+   
   );
 
   @override
@@ -19,6 +21,7 @@ class OtpScreen extends StatefulWidget {
 
 class _OtpScreenState extends State<OtpScreen> {
   String otp = '';
+
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   void verifyOTP() async {
@@ -27,6 +30,7 @@ class _OtpScreenState extends State<OtpScreen> {
       smsCode: otp,
     );
 
+    print("Data Delected");
     _signInWithCredential(credential);
   }
 
@@ -36,6 +40,12 @@ class _OtpScreenState extends State<OtpScreen> {
       // User is signed in.
       final user = authResult.user;
       if (user != null) {
+        // // DocumentReference documentReference = FirebaseFirestore.instance
+        // //     .collection('uid')
+        // //     .doc('${widget.documentData['id']}');
+
+        // // Use the delete method to remove the document
+        // await documentReference.delete();
         print("pass");
         print('User signed in: ${user.uid}');
       } else {
