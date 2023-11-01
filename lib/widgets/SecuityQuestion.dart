@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class ColorDrop extends StatefulWidget {
-  const ColorDrop({super.key});
+class SecuityQuestion extends StatefulWidget {
+  const SecuityQuestion({super.key});
 
   @override
-  State<ColorDrop> createState() => _ColorDropState();
+  State<SecuityQuestion> createState() => _SecuityQuestionState();
 }
 
-class _ColorDropState extends State<ColorDrop> {
-  String? _selectedItem1;
+class _SecuityQuestionState extends State<SecuityQuestion> {
+  String? _selectedItem3;
 
   var bgcolor = Colors.white;
-  List<Map<String, dynamic>> _dropdownItems1 = [
+  List<Map<String, dynamic>> _dropdownItems3 = [
     {
       'value': 'item1',
-      'label': 'red',
-      'imagePath': 'assets/red.png',
-      'color': Colors.red,
+      'label': 'Who is your best friend?',
     },
     {
       'value': 'item2',
-      'label': 'white',
-      'imagePath': 'assets/white.png',
-      'color': Colors.white,
+      'label': 'Who is your Place of Birth?',
     },
 
     // Add more items with values and image paths
@@ -32,59 +29,57 @@ class _ColorDropState extends State<ColorDrop> {
   Widget build(BuildContext context) {
     return Container(
       height: 48,
-      width: MediaQuery.of(context).size.width * 0.40,
+      width: MediaQuery.of(context).size.width,
       // padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(32),
+        borderRadius: BorderRadius.circular(0),
         color: Color(0xFF063A34),
       ),
       child: DropdownButton<String>(
+        isExpanded: true,
+        iconSize: 30,
         underline: Container(
           color: Colors.transparent,
         ),
         hint: Row(
           children: [
-            CircleAvatar(
-                backgroundColor: Colors.red,
-                child: Image.asset(
-                  "assets/red.png",
-                  width: 20, // Customize the image size as needed
-                  height: 20,
-                )),
-            SizedBox(width: 8),
+            SizedBox(
+              width: 10,
+            ),
+            Icon(
+              Icons.question_answer,
+              color: Colors.white,
+            ),
+            SizedBox(
+              width: 10,
+            ),
             Text(
-              "Select color",
-              style: TextStyle(color: Colors.white54, fontSize: 14),
+              "Recovery Question?",
+              style: TextStyle(color: Colors.white54, fontSize: 18),
             ),
           ],
         ),
         dropdownColor: Color(0xFF063A34),
-        value: _selectedItem1,
+        value: _selectedItem3,
         onChanged: (newValue) {
           setState(() {
-            _selectedItem1 = newValue!;
+            _selectedItem3 = newValue!;
           });
         },
-        items: _dropdownItems1.map<DropdownMenuItem<String>>((item) {
+        items: _dropdownItems3.map<DropdownMenuItem<String>>((item) {
           return DropdownMenuItem<String>(
             value: item['value'],
             child: Row(
-              children: <Widget>[
-                CircleAvatar(
-                  backgroundColor: item['color'],
-                  child: Image.asset(
-                    item['imagePath'],
-                    width: 20, // Customize the image size as needed
-                    height: 20,
-                  ),
+              children: [
+                SizedBox(
+                  width: 20,
                 ),
-                SizedBox(width: 8),
                 Text(
                   item['label'],
                   style: TextStyle(
                       color: Color(0xFFFFFFFF),
                       fontWeight: FontWeight.w500,
-                      fontSize: 14),
+                      fontSize: 18),
                 ),
               ],
             ),

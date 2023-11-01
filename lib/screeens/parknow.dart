@@ -1,5 +1,4 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:elbad/screeens/phonenumber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -38,6 +37,7 @@ class _ParkNowState extends State<ParkNow> {
   late User loggedInUser;
   final _formKey = GlobalKey<FormState>();
   String? selectedItem;
+  String? selectedItem3;
 
   List<Map<String, dynamic>> _dropdownItems = [
     {'value': 'item1', 'label': 'Honda 125', 'imagePath': 'assets/bike.png'},
@@ -45,6 +45,18 @@ class _ParkNowState extends State<ParkNow> {
     // Add more items with values and image paths
   ];
 
+  List<Map<String, dynamic>> dropdownItems3 = [
+    {
+      'value': 'item1',
+      'label': 'Who is your best friend?',
+    },
+    {
+      'value': 'item2',
+      'label': 'Who is your Place of Birth?',
+    },
+
+    // Add more items with values and image paths
+  ];
   String? _selectedItem1;
   var bgcolorred = Colors.red;
 
@@ -71,10 +83,12 @@ class _ParkNowState extends State<ParkNow> {
   late String bikenumber;
   late String bikedigit;
   late String phone;
+  late String secret;
   late TextEditingController NameTextController;
   late TextEditingController bikenumberTextController;
   late TextEditingController bikedigitTextController;
   late TextEditingController phoneTextController;
+  late TextEditingController secretTextController;
 
   @override
   void initState() {
@@ -84,6 +98,7 @@ class _ParkNowState extends State<ParkNow> {
     bikenumberTextController = TextEditingController();
     bikedigitTextController = TextEditingController();
     phoneTextController = TextEditingController();
+    secretTextController = TextEditingController();
   }
 
   void getCurrentUser() async {
@@ -120,24 +135,24 @@ class _ParkNowState extends State<ParkNow> {
                         padding: const EdgeInsets.only(top: 20),
 
                         // padding: const EdgeInsets.all(10),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              right: 27.0, left: 27, top: 20),
-                          child: const Text(
+                        child: const Padding(
+                          padding:
+                              EdgeInsets.only(right: 27.0, left: 27, top: 20),
+                          child: Text(
                             'Bike Park here',
                             style: TextStyle(
                               fontSize: 21,
                               fontWeight: FontWeight.w700,
-                              color: Color(0xFF03DAA1),
+                              color: Color(0xff03DABB),
                             ),
                           ),
                         )),
-                    SizedBox(
-                      height: 20,
+                    const SizedBox(
+                      height: 15,
                     ),
                     Container(
                       alignment: Alignment.topLeft,
-                      padding: const EdgeInsets.only(top: 30),
+                      // padding: const EdgeInsets.only(top: 10),
                       child: TextFormField(
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -149,8 +164,8 @@ class _ParkNowState extends State<ParkNow> {
                         onChanged: (value) {
                           Name = value;
                         },
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
+                        style: const TextStyle(color: Colors.white),
+                        decoration: const InputDecoration(
                           prefixIcon: Icon(
                             Icons.person,
                             color: Colors.white,
@@ -160,7 +175,7 @@ class _ParkNowState extends State<ParkNow> {
                           fillColor: Color(0xFF063A34),
                           enabledBorder: OutlineInputBorder(),
                           focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue),
+                            borderSide: BorderSide(color: Colors.transparent),
                           ),
                           hintText: 'Owner Full Name',
                           hintStyle: TextStyle(
@@ -170,8 +185,8 @@ class _ParkNowState extends State<ParkNow> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 25,
+                    const SizedBox(
+                      height: 15,
                     ),
                     Row(
                       children: [
@@ -209,13 +224,14 @@ class _ParkNowState extends State<ParkNow> {
                               onChanged: (value) {
                                 bikenumber = value;
                               },
-                              style: TextStyle(color: Colors.white),
-                              decoration: InputDecoration(
+                              style: const TextStyle(color: Colors.white),
+                              decoration: const InputDecoration(
                                   filled: true, //<-- SEE HERE
                                   fillColor: Color(0xFF063A34),
                                   enabledBorder: OutlineInputBorder(),
                                   focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.blue),
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
                                   ),
                                   hintText: "ABC",
                                   hintStyle: TextStyle(
@@ -239,13 +255,14 @@ class _ParkNowState extends State<ParkNow> {
                               onChanged: (value) {
                                 bikedigit = value;
                               },
-                              style: TextStyle(color: Colors.white),
-                              decoration: InputDecoration(
+                              style: const TextStyle(color: Colors.white),
+                              decoration: const InputDecoration(
                                   filled: true, //<-- SEE HERE
                                   fillColor: Color(0xFF063A34),
                                   enabledBorder: OutlineInputBorder(),
                                   focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.blue),
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
                                   ),
                                   hintText: "1234",
                                   hintStyle: TextStyle(
@@ -256,13 +273,13 @@ class _ParkNowState extends State<ParkNow> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 10,
+                    const SizedBox(
+                      height: 0,
                     ),
                     Container(
                       alignment: Alignment.topLeft,
                       child: TextFormField(
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.phone,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter value';
@@ -273,8 +290,8 @@ class _ParkNowState extends State<ParkNow> {
                         onChanged: (value) {
                           phone = value;
                         },
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
+                        style: const TextStyle(color: Colors.white),
+                        decoration: const InputDecoration(
                           prefixIcon: Icon(
                             Icons.phone,
                             color: Colors.white,
@@ -283,7 +300,7 @@ class _ParkNowState extends State<ParkNow> {
                           fillColor: Color(0xFF063A34),
                           enabledBorder: OutlineInputBorder(),
                           focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue),
+                            borderSide: BorderSide(color: Colors.transparent),
                           ),
                           hintText: 'Contact Number',
                           hintStyle: TextStyle(
@@ -293,8 +310,9 @@ class _ParkNowState extends State<ParkNow> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 25,
+
+                    const SizedBox(
+                      height: 10,
                     ),
                     Container(
                       // width: MediaQuery.of(context).size.width * 0.8,
@@ -309,7 +327,7 @@ class _ParkNowState extends State<ParkNow> {
                             // padding: EdgeInsets.all(8),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(32),
-                              color: Color(0xFF063A34),
+                              color: const Color(0xFF063A34),
                             ),
                             child: DropdownButton<String>(
                               underline: Container(
@@ -318,22 +336,22 @@ class _ParkNowState extends State<ParkNow> {
                               hint: Row(
                                 children: [
                                   CircleAvatar(
-                                      backgroundColor: Color(0xff05CAAD),
+                                      backgroundColor: const Color(0xff05CAAD),
                                       child: Image.asset(
                                         "assets/bike.png",
                                         width:
                                             20, // Customize the image size as needed
                                         height: 20,
                                       )),
-                                  SizedBox(width: 8),
-                                  Text(
+                                  const SizedBox(width: 8),
+                                  const Text(
                                     "Select Bike",
                                     style: TextStyle(
                                         color: Colors.white54, fontSize: 14),
                                   ),
                                 ],
                               ),
-                              dropdownColor: Color(0xFF063A34),
+                              dropdownColor: const Color(0xFF063A34),
                               value: selectedItem,
                               onChanged: (newValue) {
                                 setState(() {
@@ -347,7 +365,8 @@ class _ParkNowState extends State<ParkNow> {
                                   child: Row(
                                     children: <Widget>[
                                       CircleAvatar(
-                                        backgroundColor: Color(0xff05CAAD),
+                                        backgroundColor:
+                                            const Color(0xff05CAAD),
                                         child: Image.asset(
                                           item['imagePath'],
                                           width:
@@ -355,10 +374,10 @@ class _ParkNowState extends State<ParkNow> {
                                           height: 20,
                                         ),
                                       ),
-                                      SizedBox(width: 8),
+                                      const SizedBox(width: 8),
                                       Text(
                                         item['label'],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: Color(0xFFFFFFFF),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 14),
@@ -378,7 +397,7 @@ class _ParkNowState extends State<ParkNow> {
                             // padding: EdgeInsets.all(8),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(32),
-                              color: Color(0xFF063A34),
+                              color: const Color(0xFF063A34),
                             ),
                             child: DropdownButton<String>(
                               underline: Container(
@@ -394,15 +413,15 @@ class _ParkNowState extends State<ParkNow> {
                                             20, // Customize the image size as needed
                                         height: 20,
                                       )),
-                                  SizedBox(width: 8),
-                                  Text(
+                                  const SizedBox(width: 8),
+                                  const Text(
                                     "Select color",
                                     style: TextStyle(
                                         color: Colors.white54, fontSize: 14),
                                   ),
                                 ],
                               ),
-                              dropdownColor: Color(0xFF063A34),
+                              dropdownColor: const Color(0xFF063A34),
                               value: _selectedItem1,
                               onChanged: (newValue) {
                                 setState(() {
@@ -429,10 +448,10 @@ class _ParkNowState extends State<ParkNow> {
                                           height: 20,
                                         ),
                                       ),
-                                      SizedBox(width: 8),
+                                      const SizedBox(width: 8),
                                       Text(
                                         item['label'],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: Color(0xFFFFFFFF),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 14),
@@ -446,19 +465,205 @@ class _ParkNowState extends State<ParkNow> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 25,
+
+                    const SizedBox(
+                      height: 10,
+                    ),
+
+                    Container(
+                      height: 48,
+                      width: MediaQuery.of(context).size.width,
+                      // padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(0),
+                        color: const Color(0xFF063A34),
+                      ),
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        underline: Container(
+                          color: Colors.transparent,
+                        ),
+                        hint: Row(
+                          children: [
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(
+                              Icons.question_answer,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            const SizedBox(width: 8),
+                            const Text(
+                              "Recovery Question?",
+                              style: TextStyle(
+                                  color: Colors.white54, fontSize: 18),
+                            ),
+                          ],
+                        ),
+                        dropdownColor: const Color(0xFF063A34),
+                        value: selectedItem3,
+                        onChanged: (newValue) {
+                          setState(() {
+                            selectedItem3 = newValue!;
+                            print('%%%%%%%%%%%%%%%%%%%%');
+                            print("$selectedItem3");
+
+                            print('%%%%%%%%%%%%%%%%%%%%');
+                            (value) {
+                              if (value == null) {
+                                return 'Relationship is required';
+                              }
+                            };
+                          });
+                        },
+                        items: dropdownItems3
+                            .map<DropdownMenuItem<String>>((item) {
+                          return DropdownMenuItem<String>(
+                            value: item['label'],
+                            child: Row(
+                              children: <Widget>[
+                                // CircleAvatar(
+                                //   backgroundColor: item['color'],
+                                //   child: Image.asset(
+                                //     item['imagePath'],
+                                //     width:
+                                //         20, // Customize the image size as needed
+                                //     height: 20,
+                                //   ),
+                                // ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  item['label'],
+                                  style: const TextStyle(
+                                      color: Color(0xFFFFFFFF),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    // Container(
+                    //   height: 48,
+                    //   width: MediaQuery.of(context).size.width,
+                    //   // padding: EdgeInsets.all(8),
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(0),
+                    //     color: Color(0xFF063A34),
+                    //   ),
+                    //   child: DropdownButton<String>(
+                    //     iconSize: 40,
+                    //     isExpanded: true,
+                    //     underline: Container(
+                    //       color: Colors.transparent,
+                    //     ),
+                    //     hint: Row(
+                    //       children: [
+                    //         SizedBox(
+                    //           width: 10,
+                    //         ),
+                    //         Icon(
+                    //           Icons.question_answer,
+                    //           color: Colors.white,
+                    //         ),
+                    //         SizedBox(
+                    //           width: 10,
+                    //         ),
+                    //         Text(
+                    //           "Recovery Question?",
+                    //           style: TextStyle(
+                    //               color: Colors.white54, fontSize: 18),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //     dropdownColor: Color(0xFF063A34),
+                    //     value: selectedItem,
+                    //     onChanged: (newValue) {
+                    //       setState(() {
+                    //         selectedItem = newValue!;
+                    //       });
+                    //     },
+                    //     items: _dropdownItems3
+                    //         .map<DropdownMenuItem<String>>((item) {
+                    //       return DropdownMenuItem<String>(
+                    //         value: item['label'],
+                    //         child: Row(
+                    //           children: [
+                    //             SizedBox(
+                    //               width: 20,
+                    //             ),
+                    //             Text(
+                    //               item['label'],
+                    //               style: TextStyle(
+                    //                   color: Color(0xFFFFFFFF),
+                    //                   fontWeight: FontWeight.w500,
+                    //                   fontSize: 18),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       );
+                    //     }).toList(),
+                    //   ),
+                    // ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+
+                    // Container(
+                    //   child: SecuityQuestion(),
+                    // ),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      // padding: const EdgeInsets.only(top: 30),
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter value';
+                          }
+                          return null;
+                        },
+                        controller: secretTextController,
+                        onChanged: (value) {
+                          secret = value;
+                        },
+                        style: const TextStyle(color: Colors.white),
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.person,
+                            color: Colors.white,
+                          ),
+
+                          filled: true, //<-- SEE HERE
+                          fillColor: Color(0xFF063A34),
+                          enabledBorder: OutlineInputBorder(),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                          ),
+                          hintText: 'Please Share Secret',
+                          hintStyle: TextStyle(
+                              color: Colors.white54,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     Container(
                       height: 61,
                       width: 321,
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(97, 177, 90, 1),
+                          color: Color(0xff03DABB),
                           borderRadius: BorderRadius.circular(10)),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Color.fromRGBO(97, 177, 90, 1), // background
+                          backgroundColor: Color(0xff03DABB),
                         ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
@@ -474,9 +679,12 @@ class _ParkNowState extends State<ParkNow> {
                               'Phone Number': phoneTextController.text,
                               'selected Bike': selectedItem,
                               'Selected color': _selectedItem1,
+                              'Select Qestion': selectedItem3,
                               'sender': loggedInUser.email,
+                              'secret': secretTextController.text,
                               'created': Timestamp.now(),
                             }).then((value) {
+                              print("$dropdownItems3");
                               print("$selectedItem");
                               print("data is added sucfully");
                             });
@@ -491,7 +699,7 @@ class _ParkNowState extends State<ParkNow> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => menuPage()),
+                                      builder: (context) => const menuPage()),
                                 );
                               },
                               btnOkIcon: Icons.check_circle,
@@ -510,35 +718,35 @@ class _ParkNowState extends State<ParkNow> {
                             ).show();
                           }
                         },
-                        child: Text(
+                        child: const Text(
                           'Park Now',
                           style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 16.0),
-                      child: Material(
-                        elevation: 5.0,
-                        color: Colors.lightBlueAccent,
-                        borderRadius: BorderRadius.circular(30.0),
-                        child: MaterialButton(
-                          minWidth: 200.0,
-                          height: 42.0,
-                          child: Text(
-                            'Todo_List',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () async {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PhoneAuthScreen()),
-                            );
-                          },
-                        ),
-                      ),
-                    )
+                    // Padding(
+                    //   padding: EdgeInsets.symmetric(vertical: 16.0),
+                    //   child: Material(
+                    //     elevation: 5.0,
+                    //     color: Colors.lightBlueAccent,
+                    //     borderRadius: BorderRadius.circular(30.0),
+                    //     child: MaterialButton(
+                    //       minWidth: 200.0,
+                    //       height: 42.0,
+                    //       child: Text(
+                    //         'Todo_List',
+                    //         style: TextStyle(color: Colors.white),
+                    //       ),
+                    //       onPressed: () async {
+                    //         Navigator.push(
+                    //           context,
+                    //           MaterialPageRoute(
+                    //               builder: (context) => PhoneAuthScreen()),
+                    //         );
+                    //       },
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
               ),
@@ -618,7 +826,7 @@ class _ParkNowState extends State<ParkNow> {
 
   Widget backgroudImage() {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assets/BikeMap.jpg'),
 

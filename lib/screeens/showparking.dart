@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elbad/screeens/showdata.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 
 class DocumentListPage extends StatefulWidget {
   @override
@@ -105,7 +104,7 @@ class _DocumentListPageState extends State<DocumentListPage> {
                             },
                             child: Container(
                               color: Colors.transparent,
-                              height: 100,
+                              height: 90,
                               child: Card(
                                 color: Color(0xff006657),
                                 elevation: 9,

@@ -3,6 +3,8 @@ import 'package:elbad/screeens/otpscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'accountRecover.dart';
+
 // ignore: must_be_immutable
 class DocumentDetailPage extends StatefulWidget {
   final Map<String, dynamic> documentData;
@@ -16,13 +18,16 @@ class DocumentDetailPage extends StatefulWidget {
 class _DocumentDetailPageState extends State<DocumentDetailPage> {
   // var phoneNumber = documentData['Phone Number'];
   FirebaseAuth auth = FirebaseAuth.instance;
+  // var myVariable = "${widget.documentData['Select Qestion']}";
 
   void phoneAuth() async {
+    await auth.setSettings(appVerificationDisabledForTesting: true);
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: '${widget.documentData['Phone Number']}',
       verificationCompleted: (PhoneAuthCredential credential) async {
         {
-          //   // Get the DocumentReference associated with the document you want to delete
+          print("dsd");
+          // Get the DocumentReference associated with the document you want to delete
           DocumentReference documentReference = FirebaseFirestore.instance
               .collection('uid')
               .doc('${widget.documentData['id']}');
@@ -48,7 +53,10 @@ class _DocumentDetailPageState extends State<DocumentDetailPage> {
       codeSent: (String verificationId, int? resendToken) {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => OtpScreen(verificationId),
+            builder: (context) => OtpScreen(
+              verificationId: verificationId,
+              dataTodelete: widget.documentData['id'],
+            ),
           ),
         );
       },
@@ -80,6 +88,12 @@ class _DocumentDetailPageState extends State<DocumentDetailPage> {
     return Stack(children: [
       backgroudImage(),
       Scaffold(
+        appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.of(context).pop(),
+            )),
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
           child: Padding(
@@ -90,7 +104,7 @@ class _DocumentDetailPageState extends State<DocumentDetailPage> {
               children: [
                 Container(
                     alignment: Alignment.center,
-                    padding: const EdgeInsets.only(top: 70),
+                    padding: const EdgeInsets.only(top: 15),
 
                     // padding: const EdgeInsets.all(10),
                     child: Text(
@@ -98,101 +112,140 @@ class _DocumentDetailPageState extends State<DocumentDetailPage> {
                       style: TextStyle(
                         fontSize: 21,
                         fontWeight: FontWeight.w700,
-                        color: Color(0xFF03DAA1),
+                        color: Color(0xff03DABB),
                       ),
                     )),
                 SizedBox(
-                  height: 45,
+                  height: 10,
                 ),
                 Container(
-                  color: Colors.transparent,
                   height: 60,
-                  child: Center(
-                    child: Card(
+                  decoration: BoxDecoration(
                       color: Color(0xFF063A34),
-                      elevation: 9,
-                      child: ListTile(
-                        dense: false,
-                        leading: Icon(
-                          Icons.person,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Icon(
+                        Icons.person,
+                        color: Colors.white,
+                        size: 32,
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        '${widget.documentData['UserName']}'
+                        // "Abdul Shakoor "
+                        ,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
                           color: Colors.white,
-                          size: 32,
-                        ),
-                        title: Text(
-                          '${widget.documentData['UserName']}'
-                          // "Abdul Shakoor "
-                          ,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Colors.white),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 Container(
-                  color: Colors.transparent,
                   height: 60,
-                  child: Center(
-                    child: Card(
+                  decoration: BoxDecoration(
                       color: Color(0xFF063A34),
-                      elevation: 9,
-                      child: ListTile(
-                        dense: false,
-                        leading: Icon(
-                          Icons.pedal_bike,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Icon(
+                        Icons.pedal_bike,
+                        color: Colors.white,
+                        size: 32,
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        '${widget.documentData['Bike Start Number']}' +
+                            '-' +
+                            '${widget.documentData['Bike Digit Number']}'
+                        // "Abdul Shakoor "
+                        ,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
                           color: Colors.white,
-                          size: 32,
-                        ),
-                        title: Text(
-                          '${widget.documentData['Bike Start Number']}' +
-                              '-' +
-                              '${widget.documentData['Bike Digit Number']}'
-                          // "SGM - 5132"
-                          ,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Colors.white),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 Container(
-                  color: Colors.transparent,
                   height: 60,
-                  child: Card(
-                    color: Color(0xFF063A34),
-                    elevation: 9,
-                    child: Center(
-                      child: ListTile(
-                        dense: false,
-                        leading: Icon(
-                          Icons.phone,
+                  decoration: BoxDecoration(
+                      color: Color(0xFF063A34),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Icon(
+                        Icons.phone,
+                        color: Colors.white,
+                        size: 32,
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        '${widget.documentData['Phone Number']}'
+                        // "Abdul Shakoor "
+                        ,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
                           color: Colors.white,
-                          size: 32,
-                        ),
-                        title: Text(
-                          '${widget.documentData['Phone Number']}'
-                          // "0321-1234567"
-                          ,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Colors.white),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
+                // Container(
+                //   color: Colors.transparent,
+                //   height: 60,
+                //   child: Card(
+                //     color: Color(0xFF063A34),
+                //     elevation: 9,
+                //     child: Center(
+                //       child: ListTile(
+                //         dense: false,
+                //         leading: Icon(
+                //           Icons.phone,
+                //           color: Colors.white,
+                //           size: 32,
+                //         ),
+                //         title: Text(
+                //           '${widget.documentData['Phone Number']}'
+                //           // "0321-1234567"
+                //           ,
+                //           style: TextStyle(
+                //               fontWeight: FontWeight.bold,
+                //               fontSize: 18,
+                //               color: Colors.white),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 SizedBox(
                   height: 20,
                 ),
@@ -269,15 +322,15 @@ class _DocumentDetailPageState extends State<DocumentDetailPage> {
                   height: 61,
                   width: 321,
                   decoration: BoxDecoration(
-                      color: Color.fromRGBO(97, 177, 90, 1),
+                      color: Color(0xff03DABB),
                       borderRadius: BorderRadius.circular(10)),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Color.fromRGBO(97, 177, 90, 1), // background
+                      backgroundColor: Color(0xff03DABB),
+                      // background
                     ),
                     onPressed: phoneAuth,
-                    // () async {
+                    // ()  {},
                     // {
                     //   // Get the DocumentReference associated with the document you want to delete
                     //   DocumentReference documentReference = FirebaseFirestore
@@ -290,11 +343,54 @@ class _DocumentDetailPageState extends State<DocumentDetailPage> {
 
                     //   // Optionally, you can add a message to indicate that the document was deleted
                     // }
+
                     // Navigator.of(context).push(
-                    //     MaterialPageRoute(builder: (context) => OtpScreen( )));
-                    // },
+                    //     MaterialPageRoute(builder: (context) => OtpScreen(verificationId, dataTodelete:
+                    //               widget.documentData['Select Qestion'],)));
+
                     child: Text(
                       'Un-Park Now',
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: 61,
+                  width: 321,
+                  decoration: BoxDecoration(
+                      color: Color(0xff03DABB),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xff03DABB), // background
+                    ),
+                    onPressed:
+                        // phoneAuth,
+                        () async {
+                      // {
+                      //   // Get the DocumentReference associated with the document you want to delete
+                      //   DocumentReference documentReference = FirebaseFirestore
+                      //       .instance
+                      //       .collection('uid')
+                      //       .doc('${widget.documentData['id']}');
+
+                      //   // Use the delete method to remove the document
+                      //   await documentReference.delete();
+
+                      //   // Optionally, you can add a message to indicate that the document was deleted
+                      // }
+
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => SecurityQuestionsScreen(
+                                dataToPass:
+                                    widget.documentData['Select Qestion'],
+                              )));
+                    },
+                    child: Text(
+                      'Bike Recovery ',
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ),

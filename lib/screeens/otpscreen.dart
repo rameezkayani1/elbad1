@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:elbad/widgets/menupage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:otp_text_field/otp_field.dart';
@@ -7,13 +8,10 @@ import 'package:otp_text_field/otp_field_style.dart';
 
 class OtpScreen extends StatefulWidget {
   final String verificationId;
+  final String dataTodelete;
 
-  var documentData;
-  
-  OtpScreen(
-    this.verificationId,
-   
-  );
+  const OtpScreen(
+      {super.key, required this.verificationId, required this.dataTodelete});
 
   @override
   _OtpScreenState createState() => _OtpScreenState();
@@ -40,19 +38,56 @@ class _OtpScreenState extends State<OtpScreen> {
       // User is signed in.
       final user = authResult.user;
       if (user != null) {
-        // // DocumentReference documentReference = FirebaseFirestore.instance
-        // //     .collection('uid')
-        // //     .doc('${widget.documentData['id']}');
+        AwesomeDialog(
+          context: context,
+          headerAnimationLoop: false,
+          dialogType: DialogType.success,
+          // title: 'No Header',
+          desc:
+              'Your Bike Has been Un-Parked Successfully from Second Row.against digital Token No : DI-0001. ',
+          btnOkOnPress: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => menuPage()),
+            );
+          },
+          btnOkIcon: Icons.check_circle,
+        ).show();
+        DocumentReference documentReference = FirebaseFirestore.instance
+            .collection('uid')
+            .doc('${widget.dataTodelete}');
 
-        // // Use the delete method to remove the document
-        // await documentReference.delete();
+        await documentReference.delete();
         print("pass");
+        print("${widget.dataTodelete}");
         print('User signed in: ${user.uid}');
       } else {
+        AwesomeDialog(
+          context: context,
+          headerAnimationLoop: false,
+          dialogType: DialogType.error,
+          // title: 'No Header',
+          desc: 'Something Wrong',
+          btnOkOnPress: () {
+            debugPrint('Error');
+          },
+          btnOkIcon: Icons.check_circle,
+        ).show();
         print("failllllllllllllllllllllll");
         print('User not signed in.');
       }
     } catch (e) {
+      AwesomeDialog(
+        context: context,
+        headerAnimationLoop: false,
+        dialogType: DialogType.error,
+        // title: 'No Header',
+        desc: 'Something Wrong',
+        btnOkOnPress: () {
+          debugPrint('Error');
+        },
+        btnOkIcon: Icons.check_circle,
+      ).show();
       // Handle verification failure (e.g., invalid OTP).
       print('Error signing in: $e');
     }
@@ -63,6 +98,12 @@ class _OtpScreenState extends State<OtpScreen> {
     return Stack(children: [
       backgroudImage(),
       Scaffold(
+        appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.of(context).pop(),
+            )),
         backgroundColor: Colors.transparent,
         body: Center(
           child: Column(
@@ -73,7 +114,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 style: TextStyle(
                   fontSize: 21,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF03DAA1),
+                  color: Color(0xff03DABB),
                 ),
               ),
               SizedBox(height: 20),
@@ -112,6 +153,9 @@ class _OtpScreenState extends State<OtpScreen> {
               // ),
               SizedBox(height: 20),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xff03DABB), // background
+                ),
                 onPressed: verifyOTP,
                 child: Text('Verify OTP'),
               ),

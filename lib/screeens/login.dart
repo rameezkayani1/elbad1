@@ -181,12 +181,11 @@ class _loginpageState extends State<loginpage> {
                       height: 61,
                       width: 321,
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(97, 177, 90, 1),
+                          color: Color(0xff03DABB),
                           borderRadius: BorderRadius.circular(10)),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Color.fromRGBO(97, 177, 90, 1), // background
+                          backgroundColor: Color(0xff03DABB), // background
                         ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
