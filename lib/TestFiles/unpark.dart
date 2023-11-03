@@ -1,4 +1,3 @@
-import 'package:elbad/screeens/otpscreen.dart';
 import 'package:flutter/material.dart';
 
 class UnPark extends StatefulWidget {

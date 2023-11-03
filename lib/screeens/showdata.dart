@@ -320,7 +320,7 @@ class _DocumentDetailPageState extends State<DocumentDetailPage> {
                 ),
                 Container(
                   height: 61,
-                  width: 321,
+                  width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                       color: Color(0xff03DABB),
                       borderRadius: BorderRadius.circular(10)),
@@ -359,7 +359,7 @@ class _DocumentDetailPageState extends State<DocumentDetailPage> {
                 ),
                 Container(
                   height: 61,
-                  width: 321,
+                  width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                       color: Color(0xff03DABB),
                       borderRadius: BorderRadius.circular(10)),
@@ -370,19 +370,6 @@ class _DocumentDetailPageState extends State<DocumentDetailPage> {
                     onPressed:
                         // phoneAuth,
                         () async {
-                      // {
-                      //   // Get the DocumentReference associated with the document you want to delete
-                      //   DocumentReference documentReference = FirebaseFirestore
-                      //       .instance
-                      //       .collection('uid')
-                      //       .doc('${widget.documentData['id']}');
-
-                      //   // Use the delete method to remove the document
-                      //   await documentReference.delete();
-
-                      //   // Optionally, you can add a message to indicate that the document was deleted
-                      // }
-
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => SecurityQuestionsScreen(
                                 dataToPass:

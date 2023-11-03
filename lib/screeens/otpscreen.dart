@@ -152,12 +152,16 @@ class _OtpScreenState extends State<OtpScreen> {
               //   },
               // ),
               SizedBox(height: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xff03DABB), // background
+              Container(
+                height: 61,
+                width: MediaQuery.of(context).size.width,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff03DABB), // background
+                  ),
+                  onPressed: verifyOTP,
+                  child: Text('Verify OTP'),
                 ),
-                onPressed: verifyOTP,
-                child: Text('Verify OTP'),
               ),
             ],
           ),

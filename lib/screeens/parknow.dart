@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
+import '../TestFiles/pageview.dart';
 import '../widgets/menupage.dart';
 
 class ParkNow extends StatefulWidget {
@@ -38,7 +40,7 @@ class _ParkNowState extends State<ParkNow> {
   final _formKey = GlobalKey<FormState>();
   String? selectedItem;
   String? selectedItem3;
-
+  var formatter = DateFormat('d/M/y').format(DateTime.now());
   List<Map<String, dynamic>> _dropdownItems = [
     {'value': 'item1', 'label': 'Honda 125', 'imagePath': 'assets/bike.png'},
     {'value': 'item2', 'label': 'CD70', 'imagePath': 'assets/cd70.png'},
@@ -77,6 +79,7 @@ class _ParkNowState extends State<ParkNow> {
 
     // Add more items with values and image paths
   ];
+  bool showTextField = false;
 
   /// form variable
   late String Name;
@@ -193,7 +196,7 @@ class _ParkNowState extends State<ParkNow> {
                         Flexible(
                           flex: 2,
                           fit: FlexFit.loose,
-                          child: new TextFormField(
+                          child: TextFormField(
                               keyboardType: TextInputType.text,
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
@@ -240,9 +243,9 @@ class _ParkNowState extends State<ParkNow> {
                                       fontSize: 18),
                                   contentPadding: EdgeInsets.all(10))),
                         ),
-                        new Flexible(
+                        Flexible(
                           flex: 8,
-                          child: new TextFormField(
+                          child: TextFormField(
                               keyboardType: TextInputType.number,
                               maxLength: 4,
                               validator: (value) {
@@ -323,13 +326,15 @@ class _ParkNowState extends State<ParkNow> {
                         children: [
                           Container(
                             height: 48,
-                            width: MediaQuery.of(context).size.width * 0.40,
+                            width: MediaQuery.of(context).size.width * 0.42,
                             // padding: EdgeInsets.all(8),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(32),
                               color: const Color(0xFF063A34),
                             ),
                             child: DropdownButton<String>(
+                              // isExpanded: true,
+                              // iconSize: 35,
                               underline: Container(
                                 color: Colors.transparent,
                               ),
@@ -340,10 +345,10 @@ class _ParkNowState extends State<ParkNow> {
                                       child: Image.asset(
                                         "assets/bike.png",
                                         width:
-                                            20, // Customize the image size as needed
-                                        height: 20,
+                                            18, // Customize the image size as needed
+                                        height: 18,
                                       )),
-                                  const SizedBox(width: 8),
+                                  const SizedBox(width: 10),
                                   const Text(
                                     "Select Bike",
                                     style: TextStyle(
@@ -370,11 +375,11 @@ class _ParkNowState extends State<ParkNow> {
                                         child: Image.asset(
                                           item['imagePath'],
                                           width:
-                                              20, // Customize the image size as needed
-                                          height: 20,
+                                              18, // Customize the image size as needed
+                                          height: 18,
                                         ),
                                       ),
-                                      const SizedBox(width: 8),
+                                      const SizedBox(width: 10),
                                       Text(
                                         item['label'],
                                         style: const TextStyle(
@@ -400,6 +405,8 @@ class _ParkNowState extends State<ParkNow> {
                               color: const Color(0xFF063A34),
                             ),
                             child: DropdownButton<String>(
+                              // isExpanded: true,
+                              // iconSize: 35,
                               underline: Container(
                                 color: Colors.transparent,
                               ),
@@ -410,10 +417,10 @@ class _ParkNowState extends State<ParkNow> {
                                       child: Image.asset(
                                         "assets/red.png",
                                         width:
-                                            20, // Customize the image size as needed
-                                        height: 20,
+                                            18, // Customize the image size as needed
+                                        height: 18,
                                       )),
-                                  const SizedBox(width: 8),
+                                  const SizedBox(width: 10),
                                   const Text(
                                     "Select color",
                                     style: TextStyle(
@@ -448,13 +455,13 @@ class _ParkNowState extends State<ParkNow> {
                                           height: 20,
                                         ),
                                       ),
-                                      const SizedBox(width: 8),
+                                      const SizedBox(width: 12),
                                       Text(
                                         item['label'],
                                         style: const TextStyle(
                                             color: Color(0xFFFFFFFF),
                                             fontWeight: FontWeight.w500,
-                                            fontSize: 14),
+                                            fontSize: 16),
                                       ),
                                     ],
                                   ),
@@ -495,7 +502,6 @@ class _ParkNowState extends State<ParkNow> {
                             SizedBox(
                               width: 10,
                             ),
-                            const SizedBox(width: 8),
                             const Text(
                               "Recovery Question?",
                               style: TextStyle(
@@ -507,7 +513,10 @@ class _ParkNowState extends State<ParkNow> {
                         value: selectedItem3,
                         onChanged: (newValue) {
                           setState(() {
-                            selectedItem3 = newValue!;
+                            selectedItem3 = newValue;
+                            showTextField = newValue !=
+                                null; // Show text field if a value is selected
+
                             print('%%%%%%%%%%%%%%%%%%%%');
                             print("$selectedItem3");
 
@@ -617,38 +626,41 @@ class _ParkNowState extends State<ParkNow> {
                     // Container(
                     //   child: SecuityQuestion(),
                     // ),
-                    Container(
-                      alignment: Alignment.topLeft,
-                      // padding: const EdgeInsets.only(top: 30),
-                      child: TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter value';
-                          }
-                          return null;
-                        },
-                        controller: secretTextController,
-                        onChanged: (value) {
-                          secret = value;
-                        },
-                        style: const TextStyle(color: Colors.white),
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.person,
-                            color: Colors.white,
-                          ),
+                    Visibility(
+                      visible: showTextField,
+                      child: Container(
+                        alignment: Alignment.topLeft,
+                        // padding: const EdgeInsets.only(top: 30),
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter value';
+                            }
+                            return null;
+                          },
+                          controller: secretTextController,
+                          onChanged: (value) {
+                            secret = value;
+                          },
+                          style: const TextStyle(color: Colors.white),
+                          decoration: const InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.question_answer,
+                              color: Colors.white,
+                            ),
 
-                          filled: true, //<-- SEE HERE
-                          fillColor: Color(0xFF063A34),
-                          enabledBorder: OutlineInputBorder(),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
+                            filled: true, //<-- SEE HERE
+                            fillColor: Color(0xFF063A34),
+                            enabledBorder: OutlineInputBorder(),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent),
+                            ),
+                            hintText: 'Answer',
+                            hintStyle: TextStyle(
+                                color: Colors.white54,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18),
                           ),
-                          hintText: 'Please Share Secret',
-                          hintStyle: TextStyle(
-                              color: Colors.white54,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18),
                         ),
                       ),
                     ),
@@ -657,7 +669,7 @@ class _ParkNowState extends State<ParkNow> {
                     ),
                     Container(
                       height: 61,
-                      width: 321,
+                      width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                           color: Color(0xff03DABB),
                           borderRadius: BorderRadius.circular(10)),
@@ -682,7 +694,7 @@ class _ParkNowState extends State<ParkNow> {
                               'Select Qestion': selectedItem3,
                               'sender': loggedInUser.email,
                               'secret': secretTextController.text,
-                              'created': Timestamp.now(),
+                              'created': formatter,
                             }).then((value) {
                               print("$dropdownItems3");
                               print("$selectedItem");
@@ -724,29 +736,29 @@ class _ParkNowState extends State<ParkNow> {
                         ),
                       ),
                     ),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(vertical: 16.0),
-                    //   child: Material(
-                    //     elevation: 5.0,
-                    //     color: Colors.lightBlueAccent,
-                    //     borderRadius: BorderRadius.circular(30.0),
-                    //     child: MaterialButton(
-                    //       minWidth: 200.0,
-                    //       height: 42.0,
-                    //       child: Text(
-                    //         'Todo_List',
-                    //         style: TextStyle(color: Colors.white),
-                    //       ),
-                    //       onPressed: () async {
-                    //         Navigator.push(
-                    //           context,
-                    //           MaterialPageRoute(
-                    //               builder: (context) => PhoneAuthScreen()),
-                    //         );
-                    //       },
-                    //     ),
-                    //   ),
-                    // )
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                      child: Material(
+                        elevation: 5.0,
+                        color: Colors.lightBlueAccent,
+                        borderRadius: BorderRadius.circular(30.0),
+                        child: MaterialButton(
+                          minWidth: 200.0,
+                          height: 42.0,
+                          child: Text(
+                            'Todo_List',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RecordListScreen()),
+                            );
+                          },
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),

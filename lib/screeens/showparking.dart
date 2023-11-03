@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elbad/screeens/showdata.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import 'notification.dart';
 
 class DocumentListPage extends StatefulWidget {
   @override
@@ -8,7 +11,14 @@ class DocumentListPage extends StatefulWidget {
 }
 
 class _DocumentListPageState extends State<DocumentListPage> {
+  DateTime startDate = DateTime(2023, 1, 1);
+  DateTime endDate = DateTime(2023, 12, 31);
   var searchName = "";
+  var tarih = '';
+  late Future<QuerySnapshot> filteredData;
+
+  // var formatter = DateFormat('d/M/y').format(DateTime.now());
+//
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
@@ -18,62 +28,115 @@ class _DocumentListPageState extends State<DocumentListPage> {
         body: SafeArea(
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
-              Container(
-                color: Colors.black,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Flexible(
-                      flex: 8,
-                      child: TextField(
-                          onChanged: (Value) {
-                            setState(() {
-                              searchName = Value;
-                            });
-                          },
-                          style: TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                              fillColor: Colors.black45,
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15)),
-                                borderSide: BorderSide(
-                                    width: 3, color: Colors.lightGreen),
-                              ),
-                              suffixIcon: Image.asset("assets/vector.png"),
-                              prefixIcon: Icon(
-                                Icons.search,
-                                color: Colors.white,
-                              ),
-                              hintText: "Search by bike number",
-                              hintStyle: TextStyle(
-                                  color: Colors.white54,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18),
-                              contentPadding: EdgeInsets.all(10))),
-                    ),
-                    Flexible(
-                        flex: 2,
-                        child: Icon(
-                          Icons.notifications,
-                          size: 32,
-                          color: Colors.white,
-                        )),
-                  ],
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  color: Colors.transparent,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Flexible(
+                        flex: 8,
+                        child: TextField(
+                            onChanged: (Value) {
+                              setState(() {
+                                searchName = Value;
+                              });
+                            },
+                            style: const TextStyle(color: Colors.white),
+                            decoration: InputDecoration(
+                                fillColor: Colors.black45,
+                                enabledBorder: const OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15)),
+                                  borderSide: BorderSide(
+                                      width: 3, color: Colors.lightGreen),
+                                ),
+                                suffixIcon: GestureDetector(
+                                    onTap: () async {
+                                      DateTime? pickedDate =
+                                          await showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2025),
+                                      );
+
+                                      if (pickedDate != null) {
+                                        // print("//??/////////");
+                                        // print(pickedDate);
+                                        // print("//??/////////");
+
+                                        var formattedDate = DateFormat('d/M/y')
+                                            .format(pickedDate);
+                                        print(formattedDate);
+
+                                        setState(() {
+                                          searchName = formattedDate;
+                                          print(
+                                              "<<<<<<>>>>>>>>>>>>>>,,,,,,,,,,,,...");
+                                          print("$filteredData");
+                                          print(
+                                              "<<<<<<>>>>>>>>>>>>>>,,,,,,,,,,,,...");
+                                          print("/////////////////");
+                                          print("$tarih");
+
+                                          print("/////////////////");
+                                        });
+                                      }
+                                    },
+                                    child: Image.asset("assets/vector.png")),
+                                prefixIcon: const Icon(
+                                  Icons.search,
+                                  color: Colors.white,
+                                ),
+                                hintText: "Search by bike number",
+                                hintStyle: const TextStyle(
+                                    color: Colors.white54,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18),
+                                contentPadding: const EdgeInsets.all(10))),
+                      ),
+                      Flexible(
+                          flex: 2,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.transparent, // Background color
+                            ),
+                            child: const Icon(
+                              Icons.notifications,
+                              size: 32,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const notificationBell(),
+                                ),
+                              );
+                            },
+                          )),
+
+                      // notificationBell
+                    ],
+                  ),
                 ),
               ),
               StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('uid')
                     .orderBy('Bike Start Number')
+                    // .where('bitis', isEqualTo: 'tarih')
                     .startAt([searchName]).endAt(
                         [searchName + "\uf8ff"]).snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
 
                   if (snapshot.hasError) {
@@ -84,10 +147,10 @@ class _DocumentListPageState extends State<DocumentListPage> {
 
                   return Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.all(15.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: ListView.builder(
                         shrinkWrap: true,
-                        physics: AlwaysScrollableScrollPhysics(),
+                        physics: const AlwaysScrollableScrollPhysics(),
                         itemCount: documents.length,
                         itemBuilder: (context, index) {
                           final document =
@@ -106,11 +169,12 @@ class _DocumentListPageState extends State<DocumentListPage> {
                               color: Colors.transparent,
                               height: 90,
                               child: Card(
-                                color: Color(0xff006657),
+                                color: const Color(0xff063A34),
                                 elevation: 9,
                                 child: ListTile(
+                                    // tileColor: Color(0xff006657),
                                     dense: false,
-                                    leading: Icon(
+                                    leading: const Icon(
                                       Icons.pedal_bike,
                                       color: Colors.white,
                                       size: 32,
@@ -119,21 +183,23 @@ class _DocumentListPageState extends State<DocumentListPage> {
                                       (document['Bike Start Number']) +
                                           "-" +
                                           (document['Bike Digit Number']),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18,
                                           color: Colors.white54),
                                     ),
                                     subtitle: Text(
                                       (document['UserName']),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18,
                                           color: Colors.white54),
                                     ),
                                     trailing: Text(
-                                      "09/05/2023",
-                                      style: TextStyle(
+                                      (document['created']),
+
+                                      // (document['created']),
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18,
                                           color: Colors.white54),
@@ -156,7 +222,7 @@ class _DocumentListPageState extends State<DocumentListPage> {
 
   Widget backgroudImage() {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assets/BikeMap.jpg'),
 

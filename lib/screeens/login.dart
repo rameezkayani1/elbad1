@@ -91,7 +91,7 @@ class _loginpageState extends State<loginpage> {
                           fillColor: Color(0xFF063A34),
                           enabledBorder: OutlineInputBorder(),
                           focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue),
+                            borderSide: BorderSide(color: Colors.transparent),
                           ),
 
                           hintText: 'ID/Username',
@@ -150,7 +150,7 @@ class _loginpageState extends State<loginpage> {
                             borderSide: BorderSide(color: Colors.black),
                           ),
                           focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue),
+                            borderSide: BorderSide(color: Colors.transparent),
                           ),
                           hintText: 'Password',
 
@@ -162,24 +162,11 @@ class _loginpageState extends State<loginpage> {
                       ),
                     ),
                     SizedBox(
-                      height: 9,
-                    ),
-                    Container(
-                        alignment: Alignment.topRight,
-                        // padding: const EdgeInsets.all(10),
-                        child: const Text(
-                          'Forgot Password?',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Color.fromRGBO(0, 0, 0, 0.7),
-                          ),
-                        )),
-                    SizedBox(
                       height: 29,
                     ),
                     Container(
                       height: 61,
-                      width: 321,
+                      width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                           color: Color(0xff03DABB),
                           borderRadius: BorderRadius.circular(10)),

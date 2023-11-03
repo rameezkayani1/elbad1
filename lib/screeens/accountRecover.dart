@@ -114,14 +114,14 @@ class _SecurityQuestionsScreenState extends State<SecurityQuestionsScreen> {
                             borderRadius: BorderRadius.circular(10)),
                         child: Row(
                           children: [
-                            SizedBox(
-                              width: 12,
-                            ),
-                            Icon(
-                              Icons.person,
-                              color: Colors.white,
-                              size: 22,
-                            ),
+                            // SizedBox(
+                            //   width: 12,
+                            // ),
+                            // Icon(
+                            //   Icons.person,
+                            //   color: Colors.white,
+                            //   size: 22,
+                            // ),
                             SizedBox(
                               width: 10,
                             ),
@@ -161,10 +161,10 @@ class _SecurityQuestionsScreenState extends State<SecurityQuestionsScreen> {
                           },
                           style: TextStyle(color: Colors.white),
                           decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.person,
-                              color: Colors.white,
-                            ),
+                            // prefixIcon: Icon(
+                            //   Icons.person,
+                            //   color: Colors.white,
+                            // ),
 
                             filled: true, //<-- SEE HERE
                             fillColor: Color(0xFF063A34),
@@ -174,7 +174,7 @@ class _SecurityQuestionsScreenState extends State<SecurityQuestionsScreen> {
                             focusedBorder: UnderlineInputBorder(
                                 // borderSide: BorderSide(color: Colors.blue),
                                 ),
-                            hintText: 'Please share Secret to To recovery Bike',
+                            hintText: 'Please Enter Answer',
                             hintStyle: TextStyle(
                                 color: Colors.white54,
                                 fontWeight: FontWeight.w500,
@@ -199,7 +199,7 @@ class _SecurityQuestionsScreenState extends State<SecurityQuestionsScreen> {
                       // ),
                       Container(
                           height: 61,
-                          width: 321,
+                          width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                               color: Color(0xff03DABB),
                               borderRadius: BorderRadius.circular(10)),
@@ -212,7 +212,7 @@ class _SecurityQuestionsScreenState extends State<SecurityQuestionsScreen> {
                               deleteDocument();
                             },
                             child: Text(
-                              'Unpark Bike',
+                              'Verify',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 18),
                             ),
@@ -282,7 +282,7 @@ class _SecurityQuestionsScreenState extends State<SecurityQuestionsScreen> {
           headerAnimationLoop: false,
           dialogType: DialogType.error,
           // title: 'No Header',
-          desc: 'Something Wrong',
+          desc: 'Please Enter Correct Answer',
           btnOkOnPress: () {
             debugPrint('Error');
           },
