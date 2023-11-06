@@ -27,11 +27,8 @@ class _sortingState extends State<sorting> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance
-          .collection("uid")
-          .limit(12)
-          .orderBy("created", descending: true)
-          .snapshots(),
+      stream:
+          FirebaseFirestore.instance.collection("uid").limit(12).snapshots(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (!snapshot.hasData) {
           return CircularProgressIndicator();
@@ -117,7 +114,7 @@ class _sortingState extends State<sorting> {
                       physics: NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      itemCount: snapshot.data.docs.length,
+                      // itemCount: snapshot.data.docs.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 2.8 / 1.2,

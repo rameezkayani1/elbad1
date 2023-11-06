@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
-import '../TestFiles/pageview.dart';
+import 'pageview.dart';
 import '../widgets/menupage.dart';
 
 class ParkNow extends StatefulWidget {
@@ -753,7 +753,7 @@ class _ParkNowState extends State<ParkNow> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => RecordListScreen()),
+                                  builder: (context) => RecordListView()),
                             );
                           },
                         ),

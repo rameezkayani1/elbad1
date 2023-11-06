@@ -2,6 +2,7 @@ import 'package:elbad/screeens/parknow.dart';
 import 'package:elbad/screeens/slotlist.dart';
 import 'package:flutter/material.dart';
 
+import '../screeens/pageview.dart';
 import '../screeens/showparking.dart';
 
 class Bottom extends StatefulWidget {
@@ -13,7 +14,7 @@ class _BottomState extends State<Bottom> {
   var Colorsd = Color(0xff03DAA1);
   int _currentIndex = 0;
   List<Widget> body = [
-    sorting(),
+    RecordListView(),
     ParkNow(),
     DocumentListPage(),
   ];
@@ -24,7 +25,15 @@ class _BottomState extends State<Bottom> {
   }
 
   @override
+  void initState() {
+    print("hello word");
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print("hello 2");
     return Scaffold(
       body: Center(
         child: body[_currentIndex],
